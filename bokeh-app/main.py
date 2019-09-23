@@ -259,6 +259,12 @@ plot_a.scatter(x='betas_r1', y='betas_r2', fill_color=Dark2[3][1],
 plot_b.scatter(x='betas_r1', y='betas_r2', fill_color=Dark2[3][2],
                source=source_lb, line_color=None, size=15)
 
+plot_a.yaxis.axis_label = "Region 2"
+plot_a.xaxis.axis_label = "Region 1"
+
+plot_b.yaxis.axis_label = "Region 2"
+plot_b.xaxis.axis_label = "Region 1"
+
 
 def update(attrname, old, new):
     # values for condition A
@@ -294,64 +300,19 @@ def update(attrname, old, new):
                      })
     s2 = slice(0, len(source_la.data['onsets']))
     source_la.patch({"betas_r1": [(s2, betas_a_rnd[:, 0])],
-                          "betas_r2": [(s2, betas_a_rnd[:, 1])]
-                          })
+                     "betas_r2": [(s2, betas_a_rnd[:, 1])]
+                     })
     s3 = slice(0, len(source_lb.data['onsets']))
     source_lb.patch({"betas_r1": [(s3, betas_b_rnd[:, 0])],
-                          "betas_r2": [(s3, betas_b_rnd[:, 1])]
-                          })
+                     "betas_r2": [(s3, betas_b_rnd[:, 1])]
+                     })
 
     trial_type_a_corr.text = 'Trial Type A Correlation: {corr}'.format(corr=corr_a_widget.value)
     trial_type_b_corr.text = 'Trial Type B Correlation: {corr}'.format(corr=corr_b_widget.value)
-# def update_data(attrname, old, new):
-#     # Generate the new curve
-#     Y = generate_signal(go_onset=go_onset.value,
-#                         ss_onset=ss_onset.value,
-#                         fs_onset=fs_onset.value,
-#                         go_pwr=go_pwr.value,
-#                         ss_pwr=ss_pwr.value,
-#                         fs_pwr=fs_pwr.value,
-#                         noise=noise.value)
-
-#     s = slice(0, len(source.data['Y']))
-#     source.patch({"Y": [(s, Y)]})
-#     tot_err = np.sum(np.abs(source.data['Y'] - source.data['Y_est']))
-#     tracker.text = 'Total Error: {err}'.format(err=tot_err)
-#     go_marker.x = go_onset.value
-#     ss_marker.x = ss_onset.value
-#     fs_marker.x = fs_onset.value
-
-
-# def update_est(attrname, old, new):
-#     go_est = generate_signal(go_onset=go_beta_onset.value,
-#                              go_pwr=go_beta.value,
-#                              ss_pwr=0, fs_pwr=0)
-#     ss_est = generate_signal(ss_onset=ss_beta_onset.value,
-#                              ss_pwr=ss_beta.value,
-#                              go_pwr=0, fs_pwr=0)
-#     fs_est = generate_signal(fs_onset=fs_beta_onset.value,
-#                              fs_pwr=fs_beta.value,
-#                              go_pwr=0, ss_pwr=0)
-#     Y_est = go_est + ss_est + fs_est
-
-#     s = slice(0, len(source.data['Y']))
-
-#     source.patch({"go_estimate": [(s, go_est)],
-#                   "successful_stop_estimate": [(s, ss_est)],
-#                   "failed_stop_estimate": [(s, fs_est)],
-#                   "Y_est": [(s, Y_est)]})
-#     tot_err = np.sum(np.abs(source.data['Y'] - source.data['Y_est']))
-#     tracker.text = 'Total Error: {err}'.format(err=tot_err)
 
 
 for w in widgets[1:]:
     w.on_change('value', update)
-
-# for w in est_widgets[1:]:
-#     w.on_change('value', update_est)
-
-
-# Set up layouts and add to document
 
 data_inputs = column(widgets)
 
